@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+/* Ajustes de rolagem suave e interatividade */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* 1. Definição do Design System e Paletas de Cores */
+@layer base {
+  /* MODO NORMAL (Tema Escuro com Verde Tech do Projeto Original) */
+  :root, [data-theme="normal"] {
+    --radius: 0.75rem;
+    --background: oklch(0.16 0.008 260);
+    --foreground: oklch(0.97 0.003 260);
+    --surface: oklch(0.21 0.01 260);
+    --card: oklch(0.21 0.01 260);
+    --card-foreground: oklch(0.97 0.003 260);
+    --popover: oklch(0.21 0.01 260);
+    --popover-foreground: oklch(0.97 0.003 260);
+    --primary: oklch(0.86 0.24 145);
+    --primary-foreground: oklch(0.17 0.02 150);
+    --secondary: oklch(0.26 0.012 260);
+    --secondary-foreground: oklch(0.97 0.003 260);
+    --muted: oklch(0.25 0.01 260);
+    --muted-foreground: oklch(0.7 0.012 260);
+    --accent: oklch(0.86 0.24 145);
+    --accent-foreground: oklch(0.17 0.02 150);
+    --accent-glow: oklch(0.86 0.24 145 / 0.35);
+    --destructive: oklch(0.62 0.22 25);
+    --destructive-foreground: oklch(0.98 0.003 260);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 14%);
+    --ring: oklch(0.86 0.24 145 / 0.6);
+    --chart-1: oklch(0.86 0.24 145);
+    --chart-2: oklch(0.7 0.12 200);
+    --chart-3: oklch(0.6 0.1 260);
+    --chart-4: oklch(0.8 0.15 90);
+    --chart-5: oklch(0.7 0.18 40);
+    --sidebar: oklch(0.18 0.008 260);
+    --sidebar-foreground: oklch(0.97 0.003 260);
+    --sidebar-primary: oklch(0.86 0.24 145);
+    --sidebar-primary-foreground: oklch(0.17 0.02 150);
+    --sidebar-accent: oklch(0.26 0.012 260);
+    --sidebar-accent-foreground: oklch(0.97 0.003 260);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.86 0.24 145 / 0.6);
+  }
+
+  /* MODO MONOCROMÁTICO (Visual B&W Clean) */
+  [data-theme="monochrome"] {
+    --radius: 0.75rem;
+    --background: oklch(0.99 0 0);
+    --foreground: oklch(0.12 0 0);
+    --surface: oklch(0.96 0 0);
+    --card: oklch(0.96 0 0);
+    --card-foreground: oklch(0.12 0 0);
+    --popover: oklch(0.96 0 0);
+    --popover-foreground: oklch(0.12 0 0);
+    --primary: oklch(0.12 0 0);
+    --primary-foreground: oklch(0.99 0 0);
+    --secondary: oklch(0.92 0 0);
+    --secondary-foreground: oklch(0.12 0 0);
+    --muted: oklch(0.94 0 0);
+    --muted-foreground: oklch(0.45 0 0);
+    --accent: oklch(0.12 0 0);
+    --accent-foreground: oklch(0.99 0 0);
+    --accent-glow: oklch(0.12 0 0 / 0.15);
+    --destructive: oklch(0.62 0.22 25);
+    --destructive-foreground: oklch(0.98 0 0);
+    --border: oklch(0.88 0 0);
+    --input: oklch(0.85 0 0);
+    --ring: oklch(0.12 0 0 / 0.3);
+    --sidebar: oklch(0.98 0 0);
+    --sidebar-foreground: oklch(0.12 0 0);
+    --sidebar-primary: oklch(0.12 0 0);
+    --sidebar-primary-foreground: oklch(0.99 0 0);
+    --sidebar-accent: oklch(0.92 0 0);
+    --sidebar-accent-foreground: oklch(0.12 0 0);
+    --sidebar-border: oklch(0.88 0 0);
+    --sidebar-ring: oklch(0.12 0 0 / 0.3);
+  }
+}
+
+/* 2. Registro Mapeado das Variáveis no Tailwind CSS v4 */
+@theme inline {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-accent-glow: var(--accent-glow);
+  --color-surface: var(--surface);
+  
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+/* 3. Utilitários Customizados do Projeto */
+@utility mesh-hero {
+  background-image:
+    radial-gradient(60% 60% at 18% 12%, var(--accent-glow), transparent 70%),
+    radial-gradient(50% 50% at 85% 8%, oklch(0.7 0.14 210 / 0.12), transparent 70%),
+    radial-gradient(45% 45% at 60% 95%, var(--accent-glow), transparent 70%);
+}
+
+@utility grain {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  &.revealed, &.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility text-glow {
+  text-shadow: 0 0 40px var(--accent-glow);
+}
+
+@utility animate-terminal-blink {
+  animation: terminal-blink 1s steps(1) infinite;
+}
+
+@keyframes terminal-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 4. Estilos Globais Base */
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+}
+
+/* Configuração aprimorada para a View Transitions API (Efeito Circular) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Define a ordem de empilhamento para a nova tela expandir sobre a antiga */
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* Força o isolamento de camada GPU para preservar o desfoque (backdrop-blur) nos snapshots */
+::view-transition-group(root) {
+  isolation: isolate;
+}
