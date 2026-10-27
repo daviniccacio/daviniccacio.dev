@@ -3,29 +3,39 @@ import { ArrowDown, Github, Instagram, Linkedin } from 'lucide-vue-next'
 import { useTypewriter } from '../../composables/useTypewriter'
 import TextScramble from '../ui/TextScramble.vue'
 
-// Redes sociais
+// Lista de redes sociais com os componentes de ícones associados
 const socials = [
   { href: "https://github.com/daviniccacio", label: "GitHub", Icon: Github },
   { href: "https://www.linkedin.com/in/daviniccacio", label: "LinkedIn", Icon: Linkedin },
   { href: "https://www.instagram.com/daviniccacio", label: "Instagram", Icon: Instagram },
 ]
 
-// Utilização do composable de dactilografia
+// Composable reativo que simula a dactilografia das palavras
 const typed = useTypewriter(["web", "desktop", "mobile"])
 </script>
 
 <template>
   <section id="top" class="grain mesh-hero relative overflow-hidden">
     <div class="mx-auto flex min-h-svh max-w-6xl flex-col justify-center px-5 pt-28 pb-20 sm:px-8">
+      
+      <!-- Badge de Localização com Bolinha Pulsante e Efeito de Onda Suave -->
       <p
         data-reveal
-        class="reveal mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 text-xs text-muted-foreground"
+        class="reveal mb-6 inline-flex w-fit items-center gap-2.5 rounded-full border border-border bg-surface/60 px-3.5 py-1.5 text-xs text-muted-foreground backdrop-blur-sm"
       >
-        <span class="size-1.5 rounded-full bg-accent" />
+        <!-- Elemento visual composto (Contêiner flexível de 8px por 8px) -->
+        <span class="relative flex size-2 items-center justify-center">
+          <!-- 1. Onda externa expansiva com animação contínua (ping) e cor do tema -->
+          <span class="absolute inline-flex size-full animate-ping rounded-full bg-accent/60 opacity-75 duration-1000" />
+          
+          <!-- 2. Ponto central fixo com sombra luminosa (glow) correspondente ao tema -->
+          <span class="relative inline-flex size-2 rounded-full bg-accent shadow-[0_0_8px_var(--accent-glow)]" />
+        </span>
+        
         São Luís, Maranhão — Brasil
       </p>
 
-      <!-- Nome com efeito de Scramble -->
+      <!-- Título Principal com Efeito Scramble -->
       <h1
         data-reveal
         class="reveal text-glow text-[clamp(3rem,13vw,10rem)] leading-[0.86] font-bold"
@@ -40,17 +50,19 @@ const typed = useTypewriter(["web", "desktop", "mobile"])
           <TextScramble text="Front-End Developer" />
         </p>
 
+        <!-- Texto Animado com Cursor Colado sem Espaço de Quebra de Linha -->
         <p class="font-mono text-base text-accent sm:text-lg">
-          {{ typed }}
-          <span class="ml-0.5 inline-block h-[1.1em] w-0.5 translate-y-0.5 bg-accent align-middle animate-terminal-blink" />
+          <span>{{ typed }}</span><span class="ml-1 inline-block h-[1.1em] w-0.5 translate-y-0.5 bg-accent align-middle animate-terminal-blink" />
         </p>
       </div>
 
+      <!-- Descrição do Perfil -->
       <p data-reveal class="reveal mt-8 max-w-xl text-base text-muted-foreground sm:text-lg">
         Construo interfaces eficientes, responsivas e intuitivas para web, desktop e mobile —
         aplicando boas práticas de código e otimização de processos em projetos reais.
       </p>
 
+      <!-- Botões de Ação -->
       <div data-reveal class="reveal mt-10 flex flex-wrap items-center gap-3">
         <a
           href="#projetos"
@@ -67,6 +79,7 @@ const typed = useTypewriter(["web", "desktop", "mobile"])
         </a>
       </div>
 
+      <!-- Ícones de Redes Sociais -->
       <div data-reveal class="reveal mt-12 flex items-center gap-4">
         <a
           v-for="social in socials"
