@@ -8,10 +8,10 @@ const { currentTheme, toggleTheme } = useTheme()
 
 // Mapeamento dos links de navegação da página
 const links = [
-    { href: '#sobre', label: 'Sobre' },
-    { href: '#experiencia', label: 'Experiência' },
-    { href: '#projetos', label: 'Projetos' },
-    { href: '#contato', label: 'Contato' },
+  { href: '#sobre', label: 'Sobre' },
+  { href: '#experiencia', label: 'Experiência' },
+  { href: '#projetos', label: 'Projetos' },
+  { href: '#contato', label: 'Contato' },
 ]
 
 // Estados reativos do componente
@@ -23,45 +23,45 @@ let observer: IntersectionObserver | null = null
 
 // Monitora a rolagem vertical para aplicar o efeito de vidro na barra
 const onScroll = () => {
-    const isTop = window.scrollY < 100
-    scrolled.value = window.scrollY > 24
+  const isTop = window.scrollY < 100
+  scrolled.value = window.scrollY > 24
 
-    if (isTop) {
-        activeSection.value = '#top'
-    }
+  if (isTop) {
+    activeSection.value = '#top'
+  }
 }
 
 // Configura os ouvintes de evento e o observador de interseção
 onMounted(() => {
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll()
+  window.addEventListener('scroll', onScroll, { passive: true })
 
-    const allTargets = ['#top', ...links.map((l) => l.href)]
-    const sectionElements = allTargets
-        .map((id) => document.querySelector(id))
-        .filter((el): el is HTMLElement => el !== null)
+  const allTargets = ['#top', ...links.map((l) => l.href)]
+  const sectionElements = allTargets
+    .map((id) => document.querySelector(id))
+    .filter((el): el is HTMLElement => el !== null)
 
-    observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    activeSection.value = `#${entry.target.id}`
-                }
-            })
-        },
-        {
-            rootMargin: '-20% 0px -50% 0px',
-            threshold: 0,
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activeSection.value = `#${entry.target.id}`
         }
-    )
+      })
+    },
+    {
+      rootMargin: '-20% 0px -50% 0px',
+      threshold: 0,
+    }
+  )
 
-    sectionElements.forEach((el) => observer?.observe(el))
+  sectionElements.forEach((el) => observer?.observe(el))
 })
 
 // Desconecta os ouvintes ao desmontar o componente
 onUnmounted(() => {
-    window.removeEventListener('scroll', onScroll)
-    if (observer) observer.disconnect()
+  window.removeEventListener('scroll', onScroll)
+  if (observer) observer.disconnect()
 })
 </script>
 
@@ -74,14 +74,13 @@ onUnmounted(() => {
         : 'bg-transparent'
     "
   >
-    <!-- Restante do conteúdo da Nav permanece exatamente o mesmo -->
     <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 sm:px-10">
       <!-- Marca Principal -->
       <a href="#top" class="font-display text-base font-bold tracking-tight transition-transform hover:scale-105">
         daviniccacio<span class="text-accent">.</span>dev
       </a>
 
-      <!-- Menu Desktop com espaçamento ampliado entre itens (gap-10) -->
+      <!-- Menu Desktop -->
       <ul class="hidden items-center gap-10 md:flex">
         <li v-for="link in links" :key="link.href">
           <a
@@ -100,15 +99,19 @@ onUnmounted(() => {
 
       <!-- Ações do Cabeçalho Desktop -->
       <div class="hidden items-center gap-5 md:flex">
+        <!-- Botão de Tema Animado (Giro + Escala + Transição de Ícone) -->
         <button
           type="button"
           @click="toggleTheme($event)"
-          class="flex size-9 items-center justify-center rounded-full border border-border bg-surface/50 text-muted-foreground transition-all hover:border-accent hover:text-accent hover:scale-105 active:scale-95"
+          class="group relative flex size-9 items-center justify-center rounded-full border border-border bg-surface/50 text-muted-foreground transition-all duration-300 hover:border-accent hover:text-accent hover:scale-110 hover:shadow-[0_0_15px_var(--accent-glow)] active:scale-90"
           :title="currentTheme === 'normal' ? 'Mudar para Tema Monocromático' : 'Mudar para Tema Padrão'"
           :aria-label="currentTheme === 'normal' ? 'Mudar para Tema Monocromático' : 'Mudar para Tema Padrão'"
         >
-          <Palette v-if="currentTheme === 'normal'" class="size-4 text-accent" />
-          <Palette v-else class="size-4" />
+          <!-- Animação do Ícone com Vue Transition -->
+          <Transition name="icon-spin" mode="out-in">
+            <Palette v-if="currentTheme === 'normal'" key="sparkles" class="size-4 text-accent transition-transform duration-500 group-hover:rotate-180" />
+            <Palette v-else key="palette" class="size-4 transition-transform duration-500 group-hover:rotate-180" />
+          </Transition>
         </button>
 
         <a
@@ -124,11 +127,13 @@ onUnmounted(() => {
         <button
           type="button"
           @click="toggleTheme($event)"
-          class="flex size-9 items-center justify-center rounded-full border border-border bg-surface/50 text-muted-foreground"
+          class="group flex size-9 items-center justify-center rounded-full border border-border bg-surface/50 text-muted-foreground transition-all active:scale-90"
           :aria-label="currentTheme === 'normal' ? 'Mudar para Tema Monocromático' : 'Mudar para Tema Padrão'"
         >
-          <Palette v-if="currentTheme === 'normal'" class="size-4 text-accent" />
-          <Palette v-else class="size-4" />
+          <Transition name="icon-spin" mode="out-in">
+            <Palette v-if="currentTheme === 'normal'" key="sparkles-mobile" class="size-4 text-accent" />
+            <Palette v-else key="palette-mobile" class="size-4" />
+          </Transition>
         </button>
 
         <button
@@ -165,3 +170,21 @@ onUnmounted(() => {
     </ul>
   </header>
 </template>
+
+<style scoped>
+/* Transição personalizada do ícone Vue */
+.icon-spin-enter-active,
+.icon-spin-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.icon-spin-enter-from {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+.icon-spin-leave-to {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+</style>

@@ -14,7 +14,7 @@ interface Project {
   media: MediaItem[]
 }
 
-// Lista de projetos utilizando as mídias da pasta public/projects/
+// Lista de projetos
 const projects: Project[] = [
   {
     title: "PomodoroApp",
@@ -30,7 +30,7 @@ const projects: Project[] = [
   },
   {
     title: "Horda Crossfit",
-    image: "/projects/hordacross/sitehordacross.png ",
+    image: "/projects/hordacross/sitehordacross.png",
     description: "Landing page institucional responsiva para um centro de treinamento crossfit, com planos, modalidades e grade de horários.",
     tags: ["HTML5", "Tailwind CSS", "JavaScript"],
     links: [
@@ -94,14 +94,25 @@ const activeProject = computed(() => (activeIndex.value !== null ? projects[acti
       <h2 class="max-w-lg text-4xl font-bold sm:text-5xl">Trabalhos selecionados.</h2>
     </div>
 
-    <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <article v-for="(p, i) in projects" :key="p.title" data-reveal
-        class="reveal group flex flex-col overflow-hidden rounded-3xl border border-border bg-surface/50 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40"
-        :style="{ transitionDelay: `${i * 80}ms` }">
+    <!-- Contêiner Flexbox com alinhamento e espaçamento dinâmico -->
+    <div class="mt-16 flex flex-wrap gap-6">
+      <article
+        v-for="(p, i) in projects"
+        :key="p.title"
+        data-reveal
+        class="reveal group flex flex-col flex-1 min-w-75 sm:min-w-[320px] lg:max-w-[calc(50%-12px)] overflow-hidden rounded-3xl border border-border bg-surface/50 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40"
+        :style="{ transitionDelay: `${i * 80}ms` }"
+      >
         <!-- Capa do Projeto -->
         <div class="overflow-hidden border-b border-border object-contain">
-          <img :src="p.image" :alt="`Prévia do projeto ${p.title}`" loading="lazy" width="1280" height="800"
-            class="aspect-16/10 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <img
+            :src="p.image"
+            :alt="`Prévia do projeto ${p.title}`"
+            loading="lazy"
+            width="1280"
+            height="800"
+            class="aspect-16/10 w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
         </div>
 
         <!-- Conteúdo do Cartão -->
@@ -111,23 +122,33 @@ const activeProject = computed(() => (activeIndex.value !== null ? projects[acti
 
           <!-- Tags de Tecnologia -->
           <ul class="mt-5 flex flex-wrap gap-2">
-            <li v-for="t in p.tags" :key="t"
-              class="rounded-full border border-border px-2.5 py-1 font-mono text-[11px] text-muted-foreground">
+            <li
+              v-for="t in p.tags"
+              :key="t"
+              class="rounded-full border border-border px-2.5 py-1 font-mono text-[11px] text-muted-foreground"
+            >
               {{ t }}
             </li>
           </ul>
 
           <!-- Links e Botão de Galeria -->
           <div class="mt-6 flex flex-wrap items-center gap-4">
-            <a v-for="link in p.links" :key="link.label" :href="link.href" target="_blank" rel="noreferrer"
-              class="inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-opacity hover:opacity-80">
+            <a
+              v-for="link in p.links"
+              :key="link.label"
+              :href="link.href"
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-opacity hover:opacity-80"
+            >
               <component :is="link.icon" class="size-4" />
               {{ link.label }}
             </a>
 
             <button
               class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              @click="activeIndex = i">
+              @click="activeIndex = i"
+            >
               <Images class="size-4" />
               Ver galeria ({{ p.media.length }})
             </button>
@@ -137,7 +158,11 @@ const activeProject = computed(() => (activeIndex.value !== null ? projects[acti
     </div>
 
     <!-- Modal Reutilizável de Mídia -->
-    <MediaModal :is-open="activeProject !== null" :title="activeProject?.title ?? ''"
-      :media="activeProject?.media ?? []" @close="activeIndex = null" />
+    <MediaModal
+      :is-open="activeProject !== null"
+      :title="activeProject?.title ?? ''"
+      :media="activeProject?.media ?? []"
+      @close="activeIndex = null"
+    />
   </section>
 </template>

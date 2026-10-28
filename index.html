@@ -2,11 +2,46 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    
+    <!-- Configuração do Favicon (Coloque seu arquivo de logo como favicon.svg na pasta public/) -->
+    <link rel="icon" type="image/png" href="/img/icon_portfolio.png" />
+    <link rel="png" type="image/x-icon" href="/img/icon_portfolio.ico" />
+    
+    <!-- Configurações para Responsividade e Renderização -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#09090b" />
+    
+    <!-- Informações Principais de SEO -->
     <title>Davi Nicacio — Front-End Developer</title>
+    <meta name="title" content="Davi Nicacio — Front-End Developer" />
+    <meta
+      name="description"
+      content="Portfólio profissional de Davi Nicacio. Desenvolvedor Front-End especializado em interfaces modernas e eficientes para Web, Desktop e Mobile."
+    />
+    <meta name="author" content="Davi Nicacio de Oliveira Cunha" />
+    <meta name="keywords" content="Front-End Developer, Vue.js, React, TypeScript, Tailwind CSS, Web Developer, São Luís, Maranhão" />
 
-    <!-- Importação das Fontes do Google (Space Grotesk, Inter e JetBrains Mono) -->
+    <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://daviniccacio.dev/" />
+    <meta property="og:title" content="Davi Nicacio — Front-End Developer" />
+    <meta
+      property="og:description"
+      content="Construo interfaces eficientes, responsivas e intuitivas para web, desktop e mobile."
+    />
+    <meta property="og:image" content="/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://daviniccacio.dev/" />
+    <meta property="twitter:title" content="Davi Nicacio — Front-End Developer" />
+    <meta
+      property="twitter:description"
+      content="Construo interfaces eficientes, responsivas e intuitivas para web, desktop e mobile."
+    />
+    <meta property="twitter:image" content="/og-image.png" />
+
+    <!-- Importação de Fontes do Google (Space Grotesk, Inter e JetBrains Mono) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,7 +50,10 @@
     />
   </head>
   <body>
+    <!-- Ponto de montagem da aplicação Vue 3 -->
     <div id="app"></div>
+    
+    <!-- Script principal de inicialização -->
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
