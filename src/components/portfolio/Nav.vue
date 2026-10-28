@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Menu, X, Palette, Sparkles } from 'lucide-vue-next'
+import { Menu, X, Palette } from 'lucide-vue-next'
 import { useTheme } from '../../composables/useTheme'
 
 // Importa a lógica de alternância de tema
@@ -104,10 +104,10 @@ onUnmounted(() => {
           type="button"
           @click="toggleTheme($event)"
           class="flex size-9 items-center justify-center rounded-full border border-border bg-surface/50 text-muted-foreground transition-all hover:border-accent hover:text-accent hover:scale-105 active:scale-95"
-          :title="currentTheme === 'normal' ? 'Mudar para Modo Monocromático' : 'Mudar para Modo Verde Tech'"
-          :aria-label="currentTheme === 'normal' ? 'Mudar para Modo Monocromático' : 'Mudar para Modo Verde Tech'"
+          :title="currentTheme === 'normal' ? 'Mudar para Tema Monocromático' : 'Mudar para Tema Padrão'"
+          :aria-label="currentTheme === 'normal' ? 'Mudar para Tema Monocromático' : 'Mudar para Tema Padrão'"
         >
-          <Sparkles v-if="currentTheme === 'normal'" class="size-4 text-accent" />
+          <Palette v-if="currentTheme === 'normal'" class="size-4 text-accent" />
           <Palette v-else class="size-4" />
         </button>
 
@@ -125,9 +125,9 @@ onUnmounted(() => {
           type="button"
           @click="toggleTheme($event)"
           class="flex size-9 items-center justify-center rounded-full border border-border bg-surface/50 text-muted-foreground"
-          :aria-label="currentTheme === 'normal' ? 'Mudar para Modo Monocromático' : 'Mudar para Modo Verde Tech'"
+          :aria-label="currentTheme === 'normal' ? 'Mudar para Tema Monocromático' : 'Mudar para Tema Padrão'"
         >
-          <Sparkles v-if="currentTheme === 'normal'" class="size-4 text-accent" />
+          <Palette v-if="currentTheme === 'normal'" class="size-4 text-accent" />
           <Palette v-else class="size-4" />
         </button>
 
