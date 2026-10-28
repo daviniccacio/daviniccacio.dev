@@ -145,7 +145,7 @@ const activeProject = computed(() => (activeIndex.value !== null ? filteredProje
         v-for="(p, i) in filteredProjects"
         :key="p.title"
         data-reveal
-        class="reveal group flex flex-col flex-1 min-w-[300px] sm:min-w-[320px] lg:max-w-[calc(50%-12px)] overflow-hidden rounded-3xl border border-border bg-surface/50 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40"
+        class="reveal group flex flex-col flex-1 min-w-75 sm:min-w-[320px] lg:max-w-[calc(50%-12px)] overflow-hidden rounded-3xl border border-border bg-surface/50 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40"
         :style="{ transitionDelay: `${i * 60}ms` }"
       >
         <!-- Capa do Projeto -->
@@ -201,6 +201,8 @@ const activeProject = computed(() => (activeIndex.value !== null ? filteredProje
             <button
               class="inline-flex items-center gap-1.5 font-display text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
               @click="activeIndex = i"
+              aria-label="Ver galeria de mídias do projeto"
+              
             >
               <Images class="size-4" />
               Ver galeria ({{ p.media.length }})

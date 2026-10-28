@@ -123,6 +123,7 @@ const currentYear = new Date().getFullYear()
             <button
               type="submit"
               :disabled="isSubmitting"
+              aria-label="Enviar mensagem"
               class="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground shadow-lg transition-all hover:opacity-90 disabled:opacity-50"
             >
               <template v-if="isSubmitting">

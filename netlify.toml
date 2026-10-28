@@ -1,0 +1,21 @@
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+# Redirecionamento SPA para evitar erros 404 ao atualizar a página
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Integrando o relatório automático do Lighthouse no build do Netlify
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+# Cabeçalhos de Segurança e Otimização
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
