@@ -4,22 +4,36 @@ import { ArrowUpRight, Github, Images } from 'lucide-vue-next'
 import SectionLabel from '../ui/SectionLabel.vue'
 import MediaModal, { type MediaItem } from './MediaModal.vue'
 
-// Interface de tipagem do projeto
+// Definição das categorias aceites
+type Category = 'todos' | 'web' | 'mobile' | 'desktop'
+
+// Estrutura de dados do projeto
 interface Project {
   title: string
   image: string
   description: string
+  category: Category
   tags: string[]
   links: { label: string; href: string; icon: any }[]
   media: MediaItem[]
 }
 
-// Lista de projetos
+const selectedCategory = ref<Category>('todos')
+
+const categories: { label: string; value: Category }[] = [
+  { label: 'Todos', value: 'todos' },
+  { label: 'Web', value: 'web' },
+  { label: 'Mobile', value: 'mobile' },
+  { label: 'Desktop', value: 'desktop' },
+]
+
+// Lista de trabalhos desenvolvidos
 const projects: Project[] = [
   {
     title: "PomodoroApp",
     image: "/projects/pomodoro/pomodoroapp.png",
     description: "App desktop de produtividade baseado na técnica Pomodoro, com timers configuráveis e interface minimalista.",
+    category: "desktop",
     tags: ["Electron", "JavaScript", "Tailwind CSS"],
     links: [
       { label: "Ver Projeto", href: "https://github.com/daviniccacio/PomodoroApp", icon: Github }
@@ -32,6 +46,7 @@ const projects: Project[] = [
     title: "Horda Crossfit",
     image: "/projects/hordacross/sitehordacross.png",
     description: "Landing page institucional responsiva para um centro de treinamento crossfit, com planos, modalidades e grade de horários.",
+    category: "web",
     tags: ["HTML5", "Tailwind CSS", "JavaScript"],
     links: [
       { label: "Ver site", href: "https://horda-cross-website.vercel.app", icon: ArrowUpRight }
@@ -44,6 +59,7 @@ const projects: Project[] = [
     title: "Kashio",
     image: "/projects/kashio/kashio.png",
     description: "Um sistema web completo, moderno e responsivo para controle e planejamento financeiro pessoal ou empresarial.",
+    category: "web",
     tags: ["React", "Tailwind CSS", "Vite"],
     links: [
       { label: "Ver Projeto", href: "https://github.com/daviniccacio/Kashio", icon: Github }
@@ -58,6 +74,7 @@ const projects: Project[] = [
     title: "Treino Pesado App",
     image: "/projects/treinopesadoapp/apptreinopesado.png",
     description: "Aplicativo Mobile com intuito de visualização e demonstração de exercícios físicos e também criação de treinos para alunos.",
+    category: "mobile",
     tags: ["React Native", "Nativewind", "TypeScript"],
     links: [
       { label: "Ver Projeto", href: "https://github.com/daviniccacio/TreinoPesadoApp", icon: Github },
@@ -72,6 +89,7 @@ const projects: Project[] = [
     title: "Website Treino Pesado Academia",
     image: "/projects/sitetreinopesadoacademia/sitetreinopesadoacademia.png",
     description: "Website institucional responsivo para uma academia de musculação, com informações sobre planos, horários e modalidades.",
+    category: "web",
     tags: ["Vue", "Tailwind CSS", "Vite"],
     links: [
       { label: "Ver Site", href: "https://treinopesadoacademia.com.br", icon: ArrowUpRight },
@@ -82,29 +100,56 @@ const projects: Project[] = [
   },
 ]
 
-// Controle do estado reativo do modal de galeria
+// Filtro computado dinâmico por categoria
+const filteredProjects = computed(() => {
+  if (selectedCategory.value === 'todos') return projects
+  return projects.filter((p) => p.category === selectedCategory.value)
+})
+
+// Estado da galeria de mídia no modal
 const activeIndex = ref<number | null>(null)
-const activeProject = computed(() => (activeIndex.value !== null ? projects[activeIndex.value] : null))
+const activeProject = computed(() => (activeIndex.value !== null ? filteredProjects.value[activeIndex.value] : null))
 </script>
 
 <template>
   <section id="projetos" class="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
-    <div data-reveal class="reveal">
-      <SectionLabel>Projetos</SectionLabel>
-      <h2 class="max-w-lg text-4xl font-bold sm:text-5xl">Trabalhos selecionados.</h2>
+    <!-- Cabeçalho da Secção + Filtros -->
+    <div data-reveal class="reveal flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <SectionLabel>Projetos</SectionLabel>
+        <h2 class="max-w-lg text-4xl font-bold sm:text-5xl">Trabalhos selecionados.</h2>
+      </div>
+
+      <!-- Abas do Filtro de Categorias -->
+      <div class="flex flex-wrap gap-2 rounded-2xl border border-border bg-surface/40 p-1.5 backdrop-blur-sm">
+        <button
+          v-for="cat in categories"
+          :key="cat.value"
+          type="button"
+          @click="selectedCategory = cat.value"
+          class="rounded-xl px-4 py-2 font-display text-xs font-medium tracking-wide transition-all cursor-pointer"
+          :class="
+            selectedCategory === cat.value
+              ? 'bg-accent text-accent-foreground shadow-md'
+              : 'text-muted-foreground hover:text-foreground'
+          "
+        >
+          {{ cat.label }}
+        </button>
+      </div>
     </div>
 
-    <!-- Contêiner Flexbox com alinhamento e espaçamento dinâmico -->
-    <div class="mt-16 flex flex-wrap gap-6">
+    <!-- Lista de Cartões de Projetos -->
+    <div class="mt-12 flex flex-wrap gap-6">
       <article
-        v-for="(p, i) in projects"
+        v-for="(p, i) in filteredProjects"
         :key="p.title"
         data-reveal
-        class="reveal group flex flex-col flex-1 min-w-75 sm:min-w-[320px] lg:max-w-[calc(50%-12px)] overflow-hidden rounded-3xl border border-border bg-surface/50 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40"
-        :style="{ transitionDelay: `${i * 80}ms` }"
+        class="reveal group flex flex-col flex-1 min-w-[300px] sm:min-w-[320px] lg:max-w-[calc(50%-12px)] overflow-hidden rounded-3xl border border-border bg-surface/50 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40"
+        :style="{ transitionDelay: `${i * 60}ms` }"
       >
         <!-- Capa do Projeto -->
-        <div class="overflow-hidden border-b border-border object-contain">
+        <div class="overflow-hidden border-b border-border object-contain relative">
           <img
             :src="p.image"
             :alt="`Prévia do projeto ${p.title}`"
@@ -117,15 +162,23 @@ const activeProject = computed(() => (activeIndex.value !== null ? projects[acti
 
         <!-- Conteúdo do Cartão -->
         <div class="flex flex-1 flex-col p-6">
-          <h3 class="font-display text-xl font-semibold">{{ p.title }}</h3>
-          <p class="mt-3 flex-1 text-sm text-muted-foreground">{{ p.description }}</p>
+          <div class="flex items-center justify-between gap-2">
+            <h3 class="font-display text-xl font-semibold">{{ p.title }}</h3>
+            
+            <!-- Badge de Categoria Redesenhar (Space Grotesk + Uppercase + Glow) -->
+            <span class="rounded-full border border-accent/25 bg-accent/10 px-2.5 py-1 font-display text-[10px] font-bold tracking-wider uppercase text-accent">
+              {{ p.category }}
+            </span>
+          </div>
 
-          <!-- Tags de Tecnologia -->
+          <p class="mt-3 flex-1 text-sm text-muted-foreground leading-relaxed">{{ p.description }}</p>
+
+          <!-- Tags de Tecnologia Redesenhar (Inter + Font-Sans + Padding Aprimorado) -->
           <ul class="mt-5 flex flex-wrap gap-2">
             <li
               v-for="t in p.tags"
               :key="t"
-              class="rounded-full border border-border px-2.5 py-1 font-mono text-[11px] text-muted-foreground"
+              class="rounded-full border border-border/80 bg-surface/80 px-3 py-1 font-sans text-xs font-medium text-muted-foreground transition-colors hover:border-accent/40 hover:text-foreground"
             >
               {{ t }}
             </li>
@@ -139,14 +192,14 @@ const activeProject = computed(() => (activeIndex.value !== null ? projects[acti
               :href="link.href"
               target="_blank"
               rel="noreferrer"
-              class="inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-opacity hover:opacity-80"
+              class="inline-flex items-center gap-1.5 font-display text-xs font-semibold text-accent transition-opacity hover:opacity-80"
             >
               <component :is="link.icon" class="size-4" />
               {{ link.label }}
             </a>
 
             <button
-              class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              class="inline-flex items-center gap-1.5 font-display text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
               @click="activeIndex = i"
             >
               <Images class="size-4" />
@@ -157,7 +210,7 @@ const activeProject = computed(() => (activeIndex.value !== null ? projects[acti
       </article>
     </div>
 
-    <!-- Modal Reutilizável de Mídia -->
+    <!-- Modal de Mídias -->
     <MediaModal
       :is-open="activeProject !== null"
       :title="activeProject?.title ?? ''"

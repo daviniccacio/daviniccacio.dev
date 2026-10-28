@@ -20,7 +20,7 @@ onUnmounted(() => {
 
 <template>
   <!-- Barra de progresso fixa no topo superior da tela -->
-  <div class="fixed inset-x-0 top-0 z-[60] h-0.5 bg-transparent">
+  <div class="fixed inset-x-0 top-0 z-60 h-0.5 bg-transparent">
     <div
       class="h-full bg-accent transition-all duration-150 ease-out shadow-[0_0_10px_var(--accent-glow)]"
       :style="{ width: `${progress}%` }"
