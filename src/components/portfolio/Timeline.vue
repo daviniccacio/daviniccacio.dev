@@ -1,7 +1,9 @@
 <script setup lang="ts">
+// Importação dos ícones para enriquecer a experiência profissional
+import { Building2, Calendar } from 'lucide-vue-next'
 import SectionLabel from '../ui/SectionLabel.vue'
 
-// Lista de histórico profissional
+// Lista do histórico profissional
 const jobs = [
   {
     role: "Assistente de TI",
@@ -61,11 +63,20 @@ const jobs = [
               : 'bg-border'
           "
         />
-        <p class="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+        
+        <!-- Período com ícone de calendário -->
+        <p class="inline-flex items-center gap-1.5 font-mono text-xs tracking-widest text-muted-foreground uppercase">
+          <Calendar class="size-3.5 text-accent/80" />
           {{ job.period }}
         </p>
+
         <h3 class="mt-2 text-2xl font-semibold">{{ job.role }}</h3>
-        <p class="text-accent">{{ job.company }}</p>
+
+        <!-- Nome da empresa com ícone de prédio/organização -->
+        <p class="inline-flex items-center gap-1.5 text-accent font-medium mt-0.5">
+          <Building2 class="size-4" />
+          {{ job.company }}
+        </p>
         
         <ul class="mt-4 space-y-2">
           <li

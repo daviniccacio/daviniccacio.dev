@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+// Importação individual dos ícones necessários para navegação e tema (Tree-Shaking)
 import { Menu, X, Palette } from 'lucide-vue-next'
 import { useTheme } from '../../composables/useTheme'
 
@@ -20,20 +21,40 @@ const open = ref(false)
 const activeSection = ref('')
 
 let observer: IntersectionObserver | null = null
+let ticking = false // Variável de controlo para evitar execuções repetidas no mesmo frame de animação
 
-// Monitora a rolagem vertical para aplicar o efeito de vidro na barra
-const onScroll = () => {
-  const isTop = window.scrollY < 100
-  scrolled.value = window.scrollY > 24
+/**
+ * Atualiza o estado da barra de navegação com base na posição atual da rolagem.
+ * Executada de forma sincronizada com a taxa de atualização do ecrã do utilizador.
+ */
+const updateScrollState = () => {
+  const currentScrollY = window.scrollY
+  const isTop = currentScrollY < 100
+
+  scrolled.value = currentScrollY > 24
 
   if (isTop) {
     activeSection.value = '#top'
+  }
+
+  // Libera a trava para a próxima verificação no próximo quadro
+  ticking = false
+}
+
+/**
+ * Listener do evento de rolagem otimizado com requestAnimationFrame
+ */
+const onScroll = () => {
+  if (!ticking) {
+    window.requestAnimationFrame(updateScrollState)
+    ticking = true
   }
 }
 
 // Configura os ouvintes de evento e o observador de interseção
 onMounted(() => {
   onScroll()
+  // O parâmetro { passive: true } garante que a rolagem não seja bloqueada pela execução do JS
   window.addEventListener('scroll', onScroll, { passive: true })
 
   const allTargets = ['#top', ...links.map((l) => l.href)]
@@ -41,6 +62,7 @@ onMounted(() => {
     .map((id) => document.querySelector(id))
     .filter((el): el is HTMLElement => el !== null)
 
+  // Observa qual seção está visível na tela sem realizar cálculos manuais de layout
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -58,7 +80,7 @@ onMounted(() => {
   sectionElements.forEach((el) => observer?.observe(el))
 })
 
-// Desconecta os ouvintes ao desmontar o componente
+// Desconecta os ouvintes e observadores ao desmontar o componente
 onUnmounted(() => {
   window.removeEventListener('scroll', onScroll)
   if (observer) observer.disconnect()
@@ -99,7 +121,7 @@ onUnmounted(() => {
 
       <!-- Ações do Cabeçalho Desktop -->
       <div class="hidden items-center gap-5 md:flex">
-        <!-- Botão de Tema Animado (Giro + Escala + Transição de Ícone) -->
+        <!-- Botão de Tema Animado -->
         <button
           type="button"
           @click="toggleTheme($event)"
@@ -138,7 +160,8 @@ onUnmounted(() => {
 
         <button
           type="button"
-          aria-label="Abrir menu"
+          :aria-label="open ? 'Fechar menu' : 'Abrir menu'"
+          :aria-expanded="open"
           class="p-1 text-foreground"
           @click="open = !open"
         >
@@ -172,7 +195,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-/* Transição personalizada do ícone Vue */
+/* Transição personalizada de rotação e opacidade do ícone */
 .icon-spin-enter-active,
 .icon-spin-leave-active {
   transition: transform 0.3s ease, opacity 0.3s ease;

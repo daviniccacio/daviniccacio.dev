@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+// Importação individual dos ícones da seção de projetos (Tree-Shaking ativo)
 import { ArrowUpRight, Github, Images } from 'lucide-vue-next'
 import SectionLabel from '../ui/SectionLabel.vue'
 import MediaModal, { type MediaItem } from './MediaModal.vue'
 
-// Definição das categorias aceites
+// Definição das categorias aceitas no filtro
 type Category = 'todos' | 'web' | 'mobile' | 'desktop'
 
-// Estrutura de dados do projeto
+// Estrutura de dados de um projeto
 interface Project {
   title: string
   image: string
@@ -27,7 +28,7 @@ const categories: { label: string; value: Category }[] = [
   { label: 'Desktop', value: 'desktop' },
 ]
 
-// Lista de trabalhos desenvolvidos
+// Lista de trabalhos desenvolvidos com imagens WebP e links tipados
 const projects: Project[] = [
   {
     title: "PomodoroApp",
@@ -100,27 +101,27 @@ const projects: Project[] = [
   },
 ]
 
-// Filtro computado dinâmico por categoria
+// Propriedade computada para filtrar os projetos dinamicamente pela aba selecionada
 const filteredProjects = computed(() => {
   if (selectedCategory.value === 'todos') return projects
   return projects.filter((p) => p.category === selectedCategory.value)
 })
 
-// Estado da galeria de mídia no modal
+// Estado de controle da galeria exibida no modal
 const activeIndex = ref<number | null>(null)
 const activeProject = computed(() => (activeIndex.value !== null ? filteredProjects.value[activeIndex.value] : null))
 </script>
 
 <template>
   <section id="projetos" class="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
-    <!-- Cabeçalho da Secção + Filtros -->
+    <!-- Cabeçalho da Seção e Abas de Filtro -->
     <div data-reveal class="reveal flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <SectionLabel>Projetos</SectionLabel>
         <h2 class="max-w-lg text-4xl font-bold sm:text-5xl">Trabalhos selecionados.</h2>
       </div>
 
-      <!-- Abas do Filtro de Categorias -->
+      <!-- Abas de Categoria -->
       <div class="flex flex-wrap gap-2 rounded-2xl border border-border bg-surface/40 p-1.5 backdrop-blur-sm">
         <button
           v-for="cat in categories"
@@ -139,7 +140,7 @@ const activeProject = computed(() => (activeIndex.value !== null ? filteredProje
       </div>
     </div>
 
-    <!-- Lista de Cartões de Projetos -->
+    <!-- Grade de Cartões de Projetos -->
     <div class="mt-12 flex flex-wrap gap-6">
       <article
         v-for="(p, i) in filteredProjects"
@@ -165,7 +166,7 @@ const activeProject = computed(() => (activeIndex.value !== null ? filteredProje
           <div class="flex items-center justify-between gap-2">
             <h3 class="font-display text-xl font-semibold">{{ p.title }}</h3>
             
-            <!-- Badge de Categoria Redesenhar (Space Grotesk + Uppercase + Glow) -->
+            <!-- Badge de Categoria -->
             <span class="rounded-full border border-accent/25 bg-accent/10 px-2.5 py-1 font-display text-[10px] font-bold tracking-wider uppercase text-accent">
               {{ p.category }}
             </span>
@@ -173,7 +174,7 @@ const activeProject = computed(() => (activeIndex.value !== null ? filteredProje
 
           <p class="mt-3 flex-1 text-sm text-muted-foreground leading-relaxed">{{ p.description }}</p>
 
-          <!-- Tags de Tecnologia Redesenhar (Inter + Font-Sans + Padding Aprimorado) -->
+          <!-- Tags de Tecnologia -->
           <ul class="mt-5 flex flex-wrap gap-2">
             <li
               v-for="t in p.tags"
@@ -184,7 +185,7 @@ const activeProject = computed(() => (activeIndex.value !== null ? filteredProje
             </li>
           </ul>
 
-          <!-- Links e Botão de Galeria -->
+          <!-- Links e Ação da Galeria -->
           <div class="mt-6 flex flex-wrap items-center gap-4">
             <a
               v-for="link in p.links"
@@ -199,10 +200,10 @@ const activeProject = computed(() => (activeIndex.value !== null ? filteredProje
             </a>
 
             <button
+              type="button"
               class="inline-flex items-center gap-1.5 font-display text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
               @click="activeIndex = i"
               aria-label="Ver galeria de mídias do projeto"
-              
             >
               <Images class="size-4" />
               Ver galeria ({{ p.media.length }})
@@ -212,7 +213,7 @@ const activeProject = computed(() => (activeIndex.value !== null ? filteredProje
       </article>
     </div>
 
-    <!-- Modal de Mídias -->
+    <!-- Modal para Exibição de Galeria -->
     <MediaModal
       :is-open="activeProject !== null"
       :title="activeProject?.title ?? ''"

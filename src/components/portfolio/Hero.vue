@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// Importação individual dos ícones necessários (Tree-Shaking)
 import { ArrowDown, Github, Instagram, Linkedin } from 'lucide-vue-next'
 import { useTypewriter } from '../../composables/useTypewriter'
 import TextScramble from '../ui/TextScramble.vue'
@@ -18,17 +19,13 @@ const typed = useTypewriter(["web", "desktop", "mobile"])
   <section id="top" class="grain mesh-hero relative overflow-hidden">
     <div class="mx-auto flex min-h-svh max-w-6xl flex-col justify-center px-5 pt-28 pb-20 sm:px-8">
       
-      <!-- Badge de Localização com Bolinha Pulsante e Efeito de Onda Suave -->
+      <!-- Badge de Localização com Bolinha Pulsante -->
       <p
         data-reveal
         class="reveal mb-6 inline-flex w-fit items-center gap-2.5 rounded-full border border-border bg-surface/60 px-3.5 py-1.5 text-xs text-muted-foreground backdrop-blur-sm"
       >
-        <!-- Elemento visual composto (Contêiner flexível de 8px por 8px) -->
         <span class="relative flex size-2 items-center justify-center">
-          <!-- 1. Onda externa expansiva com animação contínua (ping) e cor do tema -->
           <span class="absolute inline-flex size-full animate-ping rounded-full bg-accent/60 opacity-75 duration-1000" />
-          
-          <!-- 2. Ponto central fixo com sombra luminosa (glow) correspondente ao tema -->
           <span class="relative inline-flex size-2 rounded-full bg-accent shadow-[0_0_8px_var(--accent-glow)]" />
         </span>
         
@@ -50,7 +47,7 @@ const typed = useTypewriter(["web", "desktop", "mobile"])
           <TextScramble text="Front-End Developer" />
         </p>
 
-        <!-- Texto Animado com Cursor Colado sem Espaço de Quebra de Linha -->
+        <!-- Texto Animado com Cursor -->
         <p class="font-mono text-base text-accent sm:text-lg">
           <span>{{ typed }}</span><span class="ml-1 inline-block h-[1.1em] w-0.5 translate-y-0.5 bg-accent align-middle animate-terminal-blink" />
         </p>

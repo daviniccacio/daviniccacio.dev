@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+// Importação individual dos ícones da seção de contato (Tree-Shaking ativo)
 import { Github, Linkedin, Mail, MessageCircle, Send, CheckCircle2 } from 'lucide-vue-next'
 import SectionLabel from '../ui/SectionLabel.vue'
 import { useTypewriter } from '../../composables/useTypewriter'
 
+// Composable reativo para simular efeito de dactilografia no título
 const typed = useTypewriter(["?", "!"])
 
+// Mapeamento dos canais de contato direto com os respetivos ícones
 const actions = [
   { label: "WhatsApp", href: "https://wa.me/5598985597868", Icon: MessageCircle, primary: true },
   { label: "Email", href: "mailto:daviniccacio@gmail.com", Icon: Mail },
@@ -13,33 +16,42 @@ const actions = [
   { label: "GitHub", href: "https://github.com/daviniccacio", Icon: Github },
 ]
 
-// Estado do formulário de contato
+// Estado reativo dos campos do formulário
 const form = ref({
   name: '',
   email: '',
   message: '',
 })
 
+// Estados de feedback visual de envio
 const isSubmitting = ref(false)
 const isSent = ref(false)
 
+/**
+ * Manipula o envio do formulário de contato
+ */
 const handleSubmit = () => {
+  // Validação simples dos campos obrigatórios
   if (!form.value.name || !form.value.email || !form.value.message) return
 
   isSubmitting.value = true
 
-  // Simulação de envio com retorno positivo (Pronto para conectar ao Web3Forms/Formspree)
+  // Simulação de envio com temporizador (Pronto para integrar com Web3Forms ou Formspree)
   setTimeout(() => {
     isSubmitting.value = false
     isSent.value = true
+    
+    // Reseta os campos do formulário
     form.value = { name: '', email: '', message: '' }
 
+    // Oculta a mensagem de sucesso após 5 segundos
     setTimeout(() => {
       isSent.value = false
     }, 5000)
   }, 1000)
 }
 
+// Ano atual dinâmico para o rodapé
 const currentYear = new Date().getFullYear()
 </script>
 
@@ -50,14 +62,17 @@ const currentYear = new Date().getFullYear()
   >
     <div class="mx-auto max-w-6xl px-5 py-28 sm:px-8 sm:py-36">
       <div class="grid gap-14 lg:grid-cols-2">
-        <!-- Coluna Esquerda: Texto de Chamada -->
+        
+        <!-- Coluna Esquerda: Chamada e Botões Rápidos -->
         <div data-reveal class="reveal">
           <SectionLabel>Contato</SectionLabel>
+          
           <h2 class="text-glow text-[clamp(2.5rem,7vw,5rem)] leading-[0.9] font-bold">
             Vamos
             <br />
             conversar{{ typed }}
           </h2>
+          
           <p class="mt-6 max-w-md text-muted-foreground">
             Aberto a oportunidades e freelas de front-end. Preencha o formulário ou escolha um canal rápido.
           </p>
@@ -143,7 +158,7 @@ const currentYear = new Date().getFullYear()
       </div>
     </div>
 
-    <!-- Rodapé -->
+    <!-- Rodapé da Página -->
     <footer class="border-t border-border">
       <div class="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8">
         <p>© {{ currentYear }} Davi Nicacio de Oliveira Cunha. Todos os direitos reservados.</p>

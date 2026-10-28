@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+// Importação individual dos ícones da galeria (Tree-Shaking)
 import { X, ChevronLeft, ChevronRight, ImageOff, Play } from 'lucide-vue-next'
 
 // Definindo os tipos aceitos para os itens da galeria
@@ -48,11 +49,16 @@ const handleKeyDown = (e: KeyboardEvent) => {
   if (e.key === 'ArrowLeft') goPrev()
 }
 
-// Reseta a galeria para a primeira posição ao abrir um projeto
+// Reseta o índice e controla a rolagem do corpo da página ao abrir/fechar o modal
 watch(
   () => props.isOpen,
   (newVal) => {
-    if (newVal) index.value = 0
+    if (newVal) {
+      index.value = 0
+      document.body.style.overflow = 'hidden' // Desativa a rolagem da página de fundo
+    } else {
+      document.body.style.overflow = '' // Restaura a rolagem normal
+    }
   }
 )
 
@@ -62,6 +68,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown)
+  document.body.style.overflow = '' // Restaura a rolagem ao desmontar o componente
 })
 </script>
 
@@ -77,11 +84,13 @@ onUnmounted(() => {
         <div class="flex items-center justify-between border-b border-border px-6 py-4">
           <div class="flex items-center gap-2">
             <h3 class="font-display text-lg font-semibold">{{ title }}</h3>
-            <span class="rounded-full bg-border/60 px-2.5 py-0.5 font-mono text-xs text-muted-foreground">
+            <span v-if="hasMedia" class="rounded-full bg-border/60 px-2.5 py-0.5 font-mono text-xs text-muted-foreground">
               {{ index + 1 }} / {{ media.length }}
             </span>
           </div>
           <button
+            type="button"
+            aria-label="Fechar galeria"
             class="rounded-full p-2 text-muted-foreground transition-colors hover:bg-border/60 hover:text-foreground"
             @click="emit('close')"
           >
@@ -89,10 +98,10 @@ onUnmounted(() => {
           </button>
         </div>
 
-        <!-- Área de Exibição Principal de Mídia (Chaves Únicas Aplicadas) -->
+        <!-- Área de Exibição Principal de Mídia -->
         <div class="relative flex aspect-16/10 items-center justify-center bg-black/30 overflow-hidden">
           <template v-if="current">
-            <!-- Chave única diferenciada para Imagem -->
+            <!-- Renderiza Imagem -->
             <img
               v-if="current.type === 'image'"
               :key="'img-' + current.src"
@@ -100,7 +109,7 @@ onUnmounted(() => {
               :alt="current.alt || title"
               class="h-full w-full object-contain"
             />
-            <!-- Chave única diferenciada para Vídeo -->
+            <!-- Renderiza Vídeo -->
             <video
               v-else-if="current.type === 'video'"
               :key="'vid-' + current.src"
@@ -120,12 +129,16 @@ onUnmounted(() => {
           <!-- Botões de Navegação -->
           <template v-if="hasMedia && media.length > 1">
             <button
+              type="button"
+              aria-label="Mídia anterior"
               class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white backdrop-blur-sm transition-all hover:bg-black/90 hover:scale-110"
               @click="goPrev"
             >
               <ChevronLeft class="size-5" />
             </button>
             <button
+              type="button"
+              aria-label="Próxima mídia"
               class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white backdrop-blur-sm transition-all hover:bg-black/90 hover:scale-110"
               @click="goNext"
             >
@@ -139,11 +152,13 @@ onUnmounted(() => {
           <button
             v-for="(item, idx) in media"
             :key="idx"
+            type="button"
+            :aria-label="`Ver mídia ${idx + 1}`"
             class="relative h-12 w-16 overflow-hidden rounded-lg border-2 transition-all shrink-0"
             :class="idx === index ? 'border-accent scale-105' : 'border-transparent opacity-50 hover:opacity-100'"
             @click="index = idx"
           >
-            <img v-if="item.type === 'image'" :src="item.src" class="h-full w-full object-cover" />
+            <img v-if="item.type === 'image'" :src="item.src" :alt="item.alt || `Miniatura ${idx + 1}`" class="h-full w-full object-cover" />
             <div v-else class="flex h-full w-full items-center justify-center bg-zinc-800 text-white">
               <Play class="size-4 fill-white" />
             </div>

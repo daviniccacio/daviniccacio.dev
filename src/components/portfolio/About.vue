@@ -1,13 +1,22 @@
 <script setup lang="ts">
+// Importação de ícones para cada categoria da stack e formação
+import { 
+  Code2, 
+  Layout, 
+  Smartphone, 
+  Database, 
+  Wrench, 
+  GraduationCap 
+} from 'lucide-vue-next'
 import SectionLabel from '../ui/SectionLabel.vue'
 
-// Dados da stack de tecnologias agrupados por categoria
+// Dados da stack de tecnologias mapeados com ícones correspondentes
 const stack = [
-  { group: "Linguagens", items: ["JavaScript", "TypeScript"] },
-  { group: "Front-End", items: ["Vue.js", "React", "Tailwind CSS", "HTML5", "CSS3"] },
-  { group: "Desktop & Mobile", items: ["Tauri", "Electron", "React Native", "Expo"] },
-  { group: "Back-End & DB", items: ["Node.js", "Supabase"] },
-  { group: "Ferramentas", items: ["Git", "GitHub", "Figma", "pnpm", "npm"] },
+  { group: "Linguagens", icon: Code2, items: ["JavaScript", "TypeScript"] },
+  { group: "Front-End", icon: Layout, items: ["Vue.js", "React", "Tailwind CSS", "HTML5", "CSS3"] },
+  { group: "Desktop & Mobile", icon: Smartphone, items: ["Tauri", "Electron", "React Native", "Expo"] },
+  { group: "Back-End & DB", icon: Database, items: ["Node.js", "Supabase"] },
+  { group: "Ferramentas", icon: Wrench, items: ["Git", "GitHub", "Figma", "pnpm", "npm"] },
 ]
 
 // Histórico de formação acadêmica e técnica
@@ -28,6 +37,7 @@ const education = [
 <template>
   <section id="sobre" class="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
     <div class="grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+      
       <!-- Coluna Principal: Informações e Formação -->
       <div data-reveal class="reveal">
         <SectionLabel>Sobre</SectionLabel>
@@ -61,9 +71,12 @@ const education = [
           </span>
         </div>
 
-        <!-- Seção de Formação Acadêmica (v-for substitui education.map) -->
+        <!-- Seção de Formação Acadêmica -->
         <div class="mt-10">
-          <p class="font-display text-sm font-semibold">Formação</p>
+          <p class="inline-flex items-center gap-2 font-display text-sm font-semibold">
+            <GraduationCap class="size-4 text-accent" />
+            Formação
+          </p>
           <ul class="mt-4 space-y-4">
             <li
               v-for="e in education"
@@ -87,7 +100,9 @@ const education = [
           class="reveal"
           :style="{ transitionDelay: `${i * 70}ms` }"
         >
-          <p class="mb-3 font-mono text-xs tracking-widest text-muted-foreground uppercase">
+          <!-- Cabeçalho do Grupo com Ícone Reativo -->
+          <p class="mb-3 flex items-center gap-2 font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            <component :is="s.icon" class="size-4 text-accent" />
             {{ s.group }}
           </p>
           <ul class="flex flex-wrap gap-2">
