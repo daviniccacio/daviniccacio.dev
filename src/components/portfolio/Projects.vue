@@ -31,7 +31,7 @@ const categories: { label: string; value: Category }[] = [
 const projects: Project[] = [
   {
     title: "PomodoroApp",
-    image: "/projects/pomodoro/pomodoroapp.png",
+    image: "/projects/pomodoro/pomodoroapp.webp",
     description: "App desktop de produtividade baseado na técnica Pomodoro, com timers configuráveis e interface minimalista.",
     category: "desktop",
     tags: ["Electron", "JavaScript", "Tailwind CSS"],
@@ -39,12 +39,12 @@ const projects: Project[] = [
       { label: "Ver Projeto", href: "https://github.com/daviniccacio/PomodoroApp", icon: Github }
     ],
     media: [
-      { type: "image", src: "/projects/pomodoro/pomodoroapp.png", alt: "Tela principal do PomodoroApp" },
+      { type: "image", src: "/projects/pomodoro/pomodoroapp.webp", alt: "Tela principal do PomodoroApp" },
     ],
   },
   {
     title: "Horda Crossfit",
-    image: "/projects/hordacross/sitehordacross.png",
+    image: "/projects/hordacross/sitehordacross.webp",
     description: "Landing page institucional responsiva para um centro de treinamento crossfit, com planos, modalidades e grade de horários.",
     category: "web",
     tags: ["HTML5", "Tailwind CSS", "JavaScript"],
@@ -52,12 +52,12 @@ const projects: Project[] = [
       { label: "Ver site", href: "https://horda-cross-website.vercel.app", icon: ArrowUpRight }
     ],
     media: [
-      { type: "image", src: "/projects/hordacross/sitehordacross.png", alt: "Página inicial do site Horda Crossfit" }
+      { type: "image", src: "/projects/hordacross/sitehordacross.webp", alt: "Página inicial do site Horda Crossfit" }
     ],
   },
   {
     title: "Kashio",
-    image: "/projects/kashio/kashio.png",
+    image: "/projects/kashio/kashio.webp",
     description: "Um sistema web completo, moderno e responsivo para controle e planejamento financeiro pessoal ou empresarial.",
     category: "web",
     tags: ["React", "Tailwind CSS", "Vite"],
@@ -65,14 +65,14 @@ const projects: Project[] = [
       { label: "Ver Projeto", href: "https://github.com/daviniccacio/Kashio", icon: Github }
     ],
     media: [
-      { type: "image", src: "/projects/kashio/kashio.png", alt: "Página inicial do Kashio" },
-      { type: "image", src: "/projects/kashio/kashio1.png", alt: "Gráficos e relatórios de fluxo de caixa" },
-      { type: "image", src: "/projects/kashio/kashio2.png", alt: "Lançamento de despesas e receitas" }
+      { type: "image", src: "/projects/kashio/kashio.webp", alt: "Página inicial do Kashio" },
+      { type: "image", src: "/projects/kashio/kashio1.webp", alt: "Gráficos e relatórios de fluxo de caixa" },
+      { type: "image", src: "/projects/kashio/kashio2.webp", alt: "Lançamento de despesas e receitas" }
     ],
   },
   {
     title: "Treino Pesado App",
-    image: "/projects/treinopesadoapp/apptreinopesado.png",
+    image: "/projects/treinopesadoapp/apptreinopesado.webp",
     description: "Aplicativo Mobile com intuito de visualização e demonstração de exercícios físicos e também criação de treinos para alunos.",
     category: "mobile",
     tags: ["React Native", "Nativewind", "TypeScript"],
@@ -82,12 +82,12 @@ const projects: Project[] = [
     ],
     media: [
       { type: "video", src: "/projects/treinopesadoapp/TreinoPesadoAppVideo.mp4", alt: "Demonstração em vídeo da execução do treino" },
-      { type: "image", src: "/projects/treinopesadoapp/apptreinopesado.png", alt: "Listagem de treinos no app mobile" }
+      { type: "image", src: "/projects/treinopesadoapp/apptreinopesado.webp", alt: "Listagem de treinos no app mobile" }
     ],
   },
   {
     title: "Website Treino Pesado Academia",
-    image: "/projects/sitetreinopesadoacademia/sitetreinopesadoacademia.png",
+    image: "/projects/sitetreinopesadoacademia/sitetreinopesadoacademia.webp",
     description: "Website institucional responsivo para uma academia de musculação, com informações sobre planos, horários e modalidades.",
     category: "web",
     tags: ["Vue", "Tailwind CSS", "Vite"],
@@ -95,7 +95,7 @@ const projects: Project[] = [
       { label: "Ver Site", href: "https://treinopesadoacademia.com.br", icon: ArrowUpRight },
     ],
     media: [
-      { type: "image", src: "/projects/sitetreinopesadoacademia/sitetreinopesadoacademia.png", alt: "Listagem de treinos no site" }
+      { type: "image", src: "/projects/sitetreinopesadoacademia/sitetreinopesadoacademia.webp", alt: "Listagem de treinos no site" }
     ],
   },
 ]
